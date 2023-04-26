@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-tariff
+      author: Alexander
+      changes:
+        - createTable:
+            tableName: tariff
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: interest_rate
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
