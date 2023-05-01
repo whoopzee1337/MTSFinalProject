@@ -30,10 +30,9 @@ import java.util.UUID;
 public class CreditServiceImpl implements CreditService {
 
     private final TariffRepository tariffRepository;
-
     private final LoanOrderRepository loanOrderRepository;
-    private final TariffMapper tariffMapper;
 
+    private final TariffMapper tariffMapper;
     private final LoanOrderMapper loanOrderMapper;
 
 
@@ -50,13 +49,12 @@ public class CreditServiceImpl implements CreditService {
         return listToDto(tariffRepository.findAll());
     }
 
-    private void validateTariff(Long tariffId){
-        if (!tariffRepository.isExist(tariffId)) {
+    @Override
+    public LoanOrderDto createOrder(LoanOrderCreateDto dto) {
+        if (!tariffRepository.isExist(dto.getTariffId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorEnum.TARIFF_NOT_FOUND.name());
         }
-    }
 
-    private void checkLoanOrdersStatus(LoanOrderCreateDto dto){
         Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 
         List<LoanOrderEntity> listOfOrders = loanOrderRepository.findAll(dto.getUserId());
@@ -76,10 +74,6 @@ public class CreditServiceImpl implements CreditService {
                 }
             }
         }
-    }
-
-    private LoanOrderEntity createNewLoanOrder(LoanOrderCreateDto dto){
-        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
         symbols.setDecimalSeparator('.');
@@ -94,14 +88,6 @@ public class CreditServiceImpl implements CreditService {
                 .setTimeUpdate(currentTimestamp);
 
         loanOrderRepository.save(loanOrderEntity);
-        return loanOrderEntity;
-    }
-
-    @Override
-    public LoanOrderDto createOrder(LoanOrderCreateDto dto) {
-        validateTariff(dto.getTariffId());
-        checkLoanOrdersStatus(dto);
-        LoanOrderEntity loanOrderEntity = createNewLoanOrder(dto);
 
         return loanOrderMapper.toDto(loanOrderEntity);
     }

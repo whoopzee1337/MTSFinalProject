@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-data-in-tariff
+      author: Alexander
+      changes:
+        - insert:
+            tableName: tariff
+            columns:
+              - column:
+                  name: type
+                  value: "MORTGAGE"
+              - column:
+                  name: interest_rate
+                  value: "12%"
+        - insert:
+            tableName: tariff
+            columns:
+              - column:
+                  name: type
+                  value: "STUDENT"
+              - column:
+                  name: interest_rate
+                  value: "10%"
+        - insert:
+            tableName: tariff
+            columns:
+              - column:
+                  name: type
+                  value: "CAR_FINANCE"
+              - column:
+                  name: interest_rate
+                  value: "8%"
