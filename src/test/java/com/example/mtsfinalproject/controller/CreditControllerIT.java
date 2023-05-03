@@ -11,6 +11,7 @@ import com.example.mtsfinalproject.dto.LoanOrderCreateDto;
 import com.example.mtsfinalproject.dto.LoanOrderDeleteDto;
 import com.example.mtsfinalproject.dto.LoanOrderDto;
 import com.example.mtsfinalproject.dto.TariffDto;
+import com.example.mtsfinalproject.AbstractTestcontainers;
 import com.example.mtsfinalproject.service.CreditService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
-class CreditControllerTest {
+class CreditControllerIT extends AbstractTestcontainers {
 
     @MockBean
     private CreditService service;

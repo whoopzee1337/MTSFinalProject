@@ -1,5 +1,6 @@
 package com.example.mtsfinalproject.repository;
 
+import com.example.mtsfinalproject.AbstractTestcontainers;
 import com.example.mtsfinalproject.entity.LoanOrderEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

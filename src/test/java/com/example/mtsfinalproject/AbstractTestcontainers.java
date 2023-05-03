@@ -1,4 +1,4 @@
-package com.example.mtsfinalproject.repository;
+package com.example.mtsfinalproject;
 
 import liquibase.Liquibase;
 import liquibase.database.Database;
@@ -42,10 +42,7 @@ public abstract class AbstractTestcontainers {
 
     @Container
     protected static final PostgreSQLContainer<?> postgreSQLContainer =
-            new PostgreSQLContainer<>("postgres:latest")
-                    .withDatabaseName("postgres-repository-unit-test")
-                    .withUsername("Alexander")
-                    .withPassword("123");
+            new PostgreSQLContainer<>("postgres:latest");
 
     @DynamicPropertySource
     private static void registerDataSourceProperties(DynamicPropertyRegistry registry) {
