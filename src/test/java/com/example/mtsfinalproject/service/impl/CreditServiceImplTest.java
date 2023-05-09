@@ -72,6 +72,32 @@ class CreditServiceImplTest {
         assertEquals(expectedTariffDtos, actualTariffDtos);
     }
 
+    @Test
+    void testGetUserOrders(){
+        UUID uuid = UUID.randomUUID();
+        List<LoanOrderEntity> loanOrderEntities = Arrays.asList(
+                new LoanOrderEntity()
+                        .setOrderId(uuid)
+                        .setUserId(1L)
+                        .setCreditRating(0.55)
+                        .setStatus("test")
+                        .setTariffId(1L)
+        );
+        List<LoanOrderDto> expectedLoanOrderDtos = Arrays.asList(
+                new LoanOrderDto()
+                        .setOrderId(uuid)
+                        .setUserId(1L)
+                        .setCreditRating(0.55)
+                        .setStatus("test")
+                        .setTariffId(1L)
+        );
+        when(loanOrderRepository.findAll(1L)).thenReturn(loanOrderEntities);
+
+        List<LoanOrderDto> actualTariffDtos = creditService.getUserOrders(1L);
+
+        assertEquals(actualTariffDtos, expectedLoanOrderDtos);
+    }
+
 
     @Test
     public void testCreateOrderSuccess() {

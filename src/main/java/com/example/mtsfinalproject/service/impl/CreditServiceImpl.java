@@ -35,18 +35,22 @@ public class CreditServiceImpl implements CreditService {
     private final TariffMapper tariffMapper;
     private final LoanOrderMapper loanOrderMapper;
 
-
-    private List<TariffDto> listToDto(List<TariffEntity> tariffs) {
+    @Override
+    public List<TariffDto> getTariffs() {
         List<TariffDto> tariffDtos = new ArrayList<>();
-        for (TariffEntity tariff : tariffs) {
+        for (TariffEntity tariff : tariffRepository.findAll()){
             tariffDtos.add(tariffMapper.toDto(tariff));
         }
         return tariffDtos;
     }
 
     @Override
-    public List<TariffDto> getTariffs() {
-        return listToDto(tariffRepository.findAll());
+    public List<LoanOrderDto> getUserOrders(Long userId){
+        List<LoanOrderDto> loanOrderDtos = new ArrayList<>();
+        for (LoanOrderEntity loanOrder : loanOrderRepository.findAll(userId)){
+            loanOrderDtos.add(loanOrderMapper.toDto(loanOrder));
+        }
+        return loanOrderDtos;
     }
 
     @Override

@@ -22,10 +22,10 @@ public class CustomExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorWrap(errorResponse));
     }
 
-    @ExceptionHandler(TimeoutException.class)
-    public ResponseEntity<ErrorWrap> handleTimeoutException(TimeoutException ex){
-        ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setCode(ErrorEnum.TIMEOUT.name()).setMessage(ErrorEnum.TIMEOUT.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorWrap(errorResponse));
-    }
+//    @ExceptionHandler(TimeoutException.class)
+//    public ResponseEntity<ErrorWrap> handleTimeoutException(TimeoutException ex){
+//        ErrorResponse errorResponse = new ErrorResponse();
+//        errorResponse.setCode(ErrorEnum.TIMEOUT.name()).setMessage(ErrorEnum.TIMEOUT.getMessage());
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorWrap(errorResponse));
+//    }
 }

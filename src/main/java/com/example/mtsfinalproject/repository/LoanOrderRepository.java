@@ -1,6 +1,7 @@
 package com.example.mtsfinalproject.repository;
 
 import com.example.mtsfinalproject.entity.LoanOrderEntity;
+import com.example.mtsfinalproject.entity.TariffEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

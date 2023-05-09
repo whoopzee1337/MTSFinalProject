@@ -12,6 +12,8 @@ public interface CreditService {
 
     List<TariffDto> getTariffs();
 
+    List<LoanOrderDto> getUserOrders(Long userId);
+
     LoanOrderDto createOrder(LoanOrderCreateDto dto);
 
     LoanOrderDto getStatusOrder(UUID orderId);

@@ -57,10 +57,8 @@ class CreditControllerIT extends AbstractTestcontainers {
 
         when(service.getTariffs()).thenReturn(Arrays.asList(tariffDto));
 
-        MvcResult mvcResult = mvc.perform(get("/loan-service/getTariffs").accept(MediaType.APPLICATION_JSON))
-                .andReturn();
 
-        mvc.perform(asyncDispatch(mvcResult))
+        mvc.perform(get("/getTariffs").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.tariffs[0].id", equalTo(100)))
@@ -68,6 +66,35 @@ class CreditControllerIT extends AbstractTestcontainers {
                 .andExpect(jsonPath("$.data.tariffs[0].interestRate", equalTo(interestRate)));
 
         verify(service).getTariffs();
+    }
+
+    @Test
+    void getUserOrders() throws Exception{
+        UUID uuid = UUID.randomUUID();
+        Long userId = 1L;
+
+        LoanOrderDto loanOrderDto = new LoanOrderDto();
+        loanOrderDto.setOrderId(uuid)
+                .setUserId(userId)
+                .setCreditRating(0.55)
+                .setStatus("test")
+                .setTariffId(1L);
+
+        when(service.getUserOrders(userId)).thenReturn(Arrays.asList(loanOrderDto));
+
+        mvc.perform(post("/getUserOrders")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userId)))
+                        .andDo(print())
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.data.orders[0].userId", equalTo(1)))
+                        .andExpect(jsonPath("$.data.orders[0].creditRating", equalTo(0.55)))
+                        .andExpect(jsonPath("$.data.orders[0].status", equalTo("test")))
+                        .andExpect(jsonPath("$.data.orders[0].tariffId", equalTo(1)));
+
+        verify(service).getUserOrders(userId);
+
     }
 
 
@@ -89,13 +116,10 @@ class CreditControllerIT extends AbstractTestcontainers {
                 .setUserId(userId)
                 .setTariffId(tariffId));
 
-        MvcResult mvcResult = mvc.perform(post("/loan-service/order")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
-                .andReturn();
-
-        mvc.perform(asyncDispatch(mvcResult))
+        mvc.perform(post("/order")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.orderId", equalTo(uuid.toString())));
@@ -118,10 +142,7 @@ class CreditControllerIT extends AbstractTestcontainers {
                 .setUserId(userId)
                 .setTariffId(tariffId));
 
-        MvcResult mvcResult = mvc.perform(get("/loan-service/getStatusOrder?orderId=" + orderId).accept(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        mvc.perform(asyncDispatch(mvcResult))
+        mvc.perform(get("/getStatusOrder?orderId=" + orderId).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(jsonPath("$.data.orderStatus", equalTo("IN_PROGRESS")));
 
@@ -136,7 +157,7 @@ class CreditControllerIT extends AbstractTestcontainers {
         LoanOrderDeleteDto dto = new LoanOrderDeleteDto();
         dto.setOrderId(orderId).setUserId(userId);
 
-        mvc.perform(delete("/loan-service/deleteOrder").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(delete("/deleteOrder").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
                 .andDo(print())
                 .andExpect(status().isOk());

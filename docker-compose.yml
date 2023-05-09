@@ -13,6 +13,18 @@ services:
     networks:
       - db
     restart: unless-stopped
+  mtsfinalproject:
+    container_name: mtsfinalproject
+    image: whoopzee1337/mtsfinalproject
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - db
+    depends_on:
+      - db
+    restart: unless-stopped
 
 networks:
   db:

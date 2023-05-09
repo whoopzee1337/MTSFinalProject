@@ -1,6 +1,11 @@
+server:
+  port: 0
+
 spring:
   liquibase:
     enabled: true
+  application:
+    name: loan-service
   h2:
     console:
       enabled: true
@@ -18,10 +23,18 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
+
 resilience4j:
   timelimiter:
     instances:
       oneSecTimeLimiter:
         timeout-duration: 1s
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
 
 
